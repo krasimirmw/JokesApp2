@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Chuck Norris Joke Categories</string>
+    <string name="error">Error</string>
+    <string name="error_400">Client Error</string>
+    <string name="error_500">Server error</string>
+    <string name="click_to_refresh">Click to Refresh</string>
+    <string name="next_joke">Next Joke</string>
+    <string name="shadowing_image">shadowing image</string>
+    <string name="category_image">category image</string>
+
+    <string name="toast_error_text">Something went wrong...</string>
+</resources>

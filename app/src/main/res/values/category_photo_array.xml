@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="category_photo">
+        <item>@drawable/explicit</item>
+        <item>@drawable/dev</item>
+        <item>@drawable/movie</item>
+        <item>@drawable/food</item>
+        <item>@drawable/celebrity</item>
+        <item>@drawable/science</item>
+        <item>@drawable/sport</item>
+        <item>@drawable/political</item>
+        <item>@drawable/religion</item>
+        <item>@drawable/animal</item>
+        <item>@drawable/history</item>
+        <item>@drawable/music</item>
+        <item>@drawable/travel</item>
+        <item>@drawable/career</item>
+        <item>@drawable/money</item>
+        <item>@drawable/fashion</item>
+    </array>
+</resources>
