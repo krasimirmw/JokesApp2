@@ -9,7 +9,7 @@ import java.util.List;
 public class Joke {
     @SerializedName("category")
     @Expose
-    private List<String> category = null;
+    private List<String> category;
     @SerializedName("icon_url")
     @Expose
     private String iconUrl;
@@ -22,6 +22,16 @@ public class Joke {
     @SerializedName("value")
     @Expose
     private String value;
+
+    public Joke(List<String> category) {
+        this.category = category;
+    }
+
+    public Joke(List<String> category, String iconUrl, String value) {
+        this.category = category;
+        this.iconUrl = iconUrl;
+        this.value = value;
+    }
 
     public List<String> getCategory() {
         return category;

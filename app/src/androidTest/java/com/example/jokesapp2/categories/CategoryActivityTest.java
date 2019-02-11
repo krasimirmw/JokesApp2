@@ -54,7 +54,7 @@ public class CategoryActivityTest {
 
     @Test
     public void checkRecyclerViewVisibility() {
-        // verify RecyclerView is displayed
+        // Verify RecyclerView is displayed
         onView(withId(R.id.recycler_view))
                 .check(matches(isDisplayed()));
     }

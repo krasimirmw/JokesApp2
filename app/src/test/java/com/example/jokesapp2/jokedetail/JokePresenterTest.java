@@ -12,6 +12,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -22,6 +23,11 @@ import static org.mockito.Mockito.verify;
 public class JokePresenterTest {
 
     private static String ICON_URL = "https://api.chucknorris.io/jokes/pattwbdusdgzo753xnhyxw";
+
+    private static List<String> categoryList = new ArrayList<String>() {{
+        add(("science"));
+    }};
+    private static Joke JOKE = new Joke(categoryList, ICON_URL, "one good mock joke");
 
     @Mock
     private JokeContract.View view;
@@ -43,17 +49,30 @@ public class JokePresenterTest {
 
     @Test
     public void requestDataFromServer() {
-        // TODO:
+        presenter.requestDataFromServer(JOKE.getCategory().get(0));
+        interactor.getJoke(argumentCaptor.capture(), eq(JOKE.getCategory().get(0)));
+        verify(interactor, times(1)).getJoke(argumentCaptor.capture(), eq(JOKE.getCategory().get(0)));
     }
 
     @Test
     public void onFinished() {
-        // TODO:
+        presenter.requestDataFromServer(JOKE.getCategory().get(0));
+        verify(interactor, times(1)).getJoke(argumentCaptor.capture(), eq(JOKE.getCategory().get(0)));
+        argumentCaptor.getValue().onFinished(JOKE.getCategory().get(0), JOKE.getIconUrl(), JOKE.getValue());
+        ArgumentCaptor<Joke> dataArgumentCaptor = ArgumentCaptor.forClass(Joke.class);
+        verify(view).setData(JOKE.getCategory().get(0), JOKE.getIconUrl(), JOKE.getValue());
+        verify(view).hideProgress();
     }
 
     @Test
     public void onFailure() {
-        // TODO:
+        presenter.requestDataFromServer(JOKE.getCategory().get(0));
+        verify(interactor, times(1)).getJoke(argumentCaptor.capture(), eq(JOKE.getCategory().get(0)));
+        argumentCaptor.getValue().onFailure(new Throwable());
+        ArgumentCaptor<Throwable> throwableArgumentCaptor = ArgumentCaptor.forClass(Throwable.class);
+        verify(view, times(1)).onResponseFailure(throwableArgumentCaptor.capture());
+        verify(view).onResponseFailure(throwableArgumentCaptor.getValue());
+        verify(view).hideProgress();
     }
 
 }
