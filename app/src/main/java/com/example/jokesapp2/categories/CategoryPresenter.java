@@ -10,7 +10,7 @@ public class CategoryPresenter implements CategoryContract.Presenter, CategoryCo
     // Interactor used for querying the data via Retrofit
     private CategoryContract.Interactor interactor;
 
-    public CategoryPresenter(CategoryContract.View view, CategoryContract.Interactor interactor) {
+    CategoryPresenter(CategoryContract.View view, CategoryContract.Interactor interactor) {
         this.view = view;
         this.interactor = interactor;
     }
@@ -18,6 +18,7 @@ public class CategoryPresenter implements CategoryContract.Presenter, CategoryCo
     @Override
     public void requestDataFromServer() {
         // Requests data from server via interactor
+        view.showProgress();
         interactor.getCategoriesArrayList(this);
     }
 

@@ -1,6 +1,9 @@
 package com.example.jokesapp2.categories;
 
+import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -54,6 +57,5 @@ public class CategoryActivityTest {
         // verify RecyclerView is displayed
         onView(withId(R.id.recycler_view))
                 .check(matches(isDisplayed()));
-
     }
 }

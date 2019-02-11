@@ -9,4 +9,5 @@
     <string name="category_image">category image</string>
 
     <string name="toast_error_text">Something went wrong...</string>
+    <string name="chuck_norris_icon_content_desc">Chuck Norris icon</string>
 </resources>

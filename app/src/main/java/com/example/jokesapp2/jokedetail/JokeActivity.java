@@ -3,6 +3,7 @@ package com.example.jokesapp2.jokedetail;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.jokesapp2.R;
+
+import java.util.Objects;
 
 import retrofit2.HttpException;
 
@@ -44,15 +47,18 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
         String category = getIntent().getStringExtra(CATEGORY_NAME);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        CardView cardview = findViewById(R.id.cardview_joke);
         progressBar = findViewById(R.id.progressBar);
-        jokeTextView = findViewById(R.id.textView);
+        jokeTextView = findViewById(R.id.text_joke);
         Button nextJokeButton = findViewById(R.id.button);
-        icon = findViewById(R.id.imageView);
+        icon = findViewById(R.id.image_joke);
 
         nextJokeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                jokeTextView.setText("");
                 presenter.requestDataFromServer(category);
             }
         });
@@ -110,7 +116,7 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
         }
         // Displays toast with error message
         Toast.makeText(JokeActivity.this,
-                "Something went wrong...Error message: " + throwable.getMessage(),
+                R.string.toast_error_text + throwable.getMessage(),
                 Toast.LENGTH_LONG).show();
     }
 }

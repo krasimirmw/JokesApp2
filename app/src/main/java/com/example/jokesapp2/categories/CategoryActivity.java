@@ -31,7 +31,8 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
         setContentView(R.layout.activity_main);
         initializeToolbar();
         initializeRecyclerView();
-        initializeProgressBarAndRefreshButton();
+        progressBar = findViewById(R.id.progressBar);
+        refreshButton = findViewById(R.id.refreshButton);
 
         presenter = new CategoryPresenter(this, new CategoryInteractor());
         presenter.requestDataFromServer();
@@ -50,30 +51,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
      */
     public void initializeRecyclerView() {
         recyclerView = findViewById(R.id.recycler_view);
-
-        int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
-        recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
         recyclerView.setLayoutManager(new GridLayoutManager(CategoryActivity.this, 4));
-    }
-
-    /*
-     * Initializes the Progressbar and RefreshButton
-     */
-    private void initializeProgressBarAndRefreshButton() {
-        progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleLarge);
-        progressBar.setIndeterminate(true);
-
-        RelativeLayout relativeLayout = new RelativeLayout(this);
-        relativeLayout.setGravity(Gravity.CENTER);
-        relativeLayout.addView(progressBar);
-
-        RelativeLayout.LayoutParams params = new
-                RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        progressBar.setVisibility(View.INVISIBLE);
-
-        this.addContentView(relativeLayout, params);
-
-        refreshButton = findViewById(R.id.refreshButton);
     }
 
     /**

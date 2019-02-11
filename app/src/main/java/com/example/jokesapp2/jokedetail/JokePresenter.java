@@ -5,7 +5,7 @@ public class JokePresenter implements JokeContract.Presenter, JokeContract.Inter
     private JokeContract.View view;
     private JokeContract.Interactor interactor;
 
-    public JokePresenter(JokeContract.View view, JokeContract.Interactor interactor) {
+    JokePresenter(JokeContract.View view, JokeContract.Interactor interactor) {
         this.view = view;
         this.interactor = interactor;
     }
@@ -13,6 +13,7 @@ public class JokePresenter implements JokeContract.Presenter, JokeContract.Inter
     // Requests Joke data from server via JokeInteractor
     @Override
     public void requestDataFromServer(String category) {
+        view.showProgress();
         interactor.getJoke(this, category);
     }
 
