@@ -1,12 +1,15 @@
 package com.example.jokesapp2.jokedetail;
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -63,6 +66,14 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
             }
         });
 
+        ImageButton favoriteButton = findViewById(R.id.button_favorite);
+        favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(JokeActivity.this, R.string.added_to_favorites, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         presenter = new JokePresenter(this, new JokeInteractor());
         presenter.requestDataFromServer(category);
     }
@@ -78,9 +89,9 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
     }
 
     /* Sets toolbar title to Category name
-    * Updates jokeTextView with Joke text
-    * Loads drawable from Api via Glide
-    * */
+     * Updates jokeTextView with Joke text
+     * Loads drawable from Api via Glide
+     * */
     @Override
     public void setData(String category, String jokeString, String drawableIcon) {
         toolbar.setTitle(category.toUpperCase());

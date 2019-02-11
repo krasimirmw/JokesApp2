@@ -10,4 +10,5 @@
 
     <string name="toast_error_text">Something went wrong...</string>
     <string name="chuck_norris_icon_content_desc">Chuck Norris icon</string>
+    <string name="added_to_favorites">Added to Favorites!</string>
 </resources>
