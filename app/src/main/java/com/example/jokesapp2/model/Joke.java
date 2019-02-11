@@ -13,7 +13,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 /* POJO for Joke Object */
-@Entity
+@Entity(tableName = "jokes")
 public class Joke {
     @SerializedName("category")
     @Expose
