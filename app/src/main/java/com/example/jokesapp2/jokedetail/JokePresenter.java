@@ -1,7 +1,6 @@
 package com.example.jokesapp2.jokedetail;
 
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.example.jokesapp2.model.Joke;
 import com.example.jokesapp2.model.JokesDataSource;

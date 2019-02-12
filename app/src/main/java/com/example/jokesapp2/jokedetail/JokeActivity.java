@@ -80,6 +80,7 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
         jokesHelper = new JokesHelper(this, jokesLocalDataSource);
 
         presenter = new JokePresenter(this, jokesLocalDataSource);
+
         presenter.requestDataFromServer(category);
     }
 
