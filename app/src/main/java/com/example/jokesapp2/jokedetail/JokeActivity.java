@@ -1,7 +1,6 @@
 package com.example.jokesapp2.jokedetail;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -71,17 +70,17 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joke);
         ButterKnife.bind(this);
-
-        category = getIntent().getStringExtra(CATEGORY_NAME);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        category = getIntent().getStringExtra(CATEGORY_NAME);
 
         JokeDatabase jokeDatabase = JokeDatabase.getInstance(getApplicationContext());
         JokesLocalDataSource jokesLocalDataSource = JokesLocalDataSource.getInstance(new AppExecutors(), jokeDatabase.jokeDAO());
         jokesHelper = new JokesHelper(this, jokesLocalDataSource);
-        presenter = new JokePresenter(this, jokesHelper, jokesLocalDataSource);
-        presenter.requestDataFromServer(category);
 
+        presenter = new JokePresenter(this, jokesLocalDataSource);
+        presenter.requestDataFromServer(category);
     }
 
     @Override
@@ -99,11 +98,11 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
      * Loads drawable from Api via Glide
      * */
     @Override
-    public void setData(String category, String jokeString, String drawableIcon) {
+    public void setData(String jokeId, String category, String jokeString, String drawableIcon, boolean isFavored) {
         toolbar.setTitle(category.toUpperCase());
-        currentJoke = new Joke(jokeString, jokeString);
+        currentJoke = new Joke(jokeId, jokeString, isFavored);
         jokeTextView.setText(jokeString);
-        favoriteButton.setSelected(false);
+        favoriteButton.setSelected(isFavored);
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.ic_sentiment_satisfied_black_24dp)
                 .error(R.drawable.ic_sentiment_very_dissatisfied_black_24dp).override(200, 200).centerCrop();
@@ -147,16 +146,15 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
 
     @OnClick(R.id.button_favorite)
     public void onFavoredButtonClicked() {
-        Log.i("favored", "onFavoredButtonClicked: " + currentJoke.isFavored());
         boolean favored = !currentJoke.isFavored();
         favoriteButton.setSelected(favored);
         jokesHelper.setJokeFavored(currentJoke, favored);
         if (favored) {
+            presenter.saveJokeToDB(currentJoke);
             Toast.makeText(JokeActivity.this, R.string.added_to_favorites, Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
+            presenter.deleteJokeFromDB(currentJoke);
             Toast.makeText(JokeActivity.this, R.string.removed_from_favorites, Toast.LENGTH_SHORT).show();
         }
-        //presenter.saveJokeToDB(currentJoke);
     }
 }

@@ -13,7 +13,7 @@ public interface JokeContract {
 
         void hideProgress();
 
-        void setData(String category, String jokeString, String drawableUrl);
+        void setData(String jokeId, String category, String jokeString, String drawableUrl, boolean isFavored);
 
         void onResponseFailure(Throwable throwable);
     }
@@ -35,7 +35,7 @@ public interface JokeContract {
     interface Interactor {
 
         interface OnFinishedListener {
-            void onFinished(String category, String jokeString, String iconUrl);
+            void onFinished(Joke joke);
 
             void onFailure(Throwable throwable);
         }

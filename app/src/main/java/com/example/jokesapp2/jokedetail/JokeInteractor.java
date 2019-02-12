@@ -27,7 +27,7 @@ public class JokeInteractor implements JokeContract.Interactor {
             @Override
             public void onResponse(@NotNull Call<Joke> call, @NotNull Response<Joke> response) {
                 assert response.body() != null;
-                onFinishedListener.onFinished(jokeCategory, response.body().getValue(), response.body().getIconUrl());
+                onFinishedListener.onFinished(response.body());
             }
 
             @Override

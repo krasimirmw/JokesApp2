@@ -22,6 +22,11 @@ public class Joke {
     @Ignore
     private List<String> category;
 
+    @SerializedName("categoryname")
+    @Expose
+    @ColumnInfo(name = "categoryname")
+    private String categoryName;
+
     @SerializedName("icon_url")
     @Expose
     private String iconUrl;
@@ -35,13 +40,15 @@ public class Joke {
 
     @SerializedName("url")
     @Expose
+    @ColumnInfo(name = "url")
     private String url;
 
     @SerializedName("value")
     @Expose
+    @ColumnInfo(name = "value")
     private String value;
 
-    boolean isFavored = false;
+    private boolean isFavored = false;
 
     @Ignore
     public Joke(List<String> category) {
@@ -55,9 +62,18 @@ public class Joke {
         this.value = value;
     }
 
-    public Joke(@NotNull String id, String value) {
+    public Joke(@NotNull String id, String value, boolean isFavored) {
         this.id = id;
         this.value = value;
+        this.isFavored = isFavored;
+    }
+
+    @Ignore
+    public Joke(@NotNull String id, String category, String value, boolean isFavored) {
+        this.id = id;
+        this.categoryName = category;
+        this.value = value;
+        this.isFavored = isFavored;
     }
 
     public List<String> getCategory() {
@@ -66,6 +82,14 @@ public class Joke {
 
     public void setCategory(List<String> category) {
         this.category = category;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getIconUrl() {

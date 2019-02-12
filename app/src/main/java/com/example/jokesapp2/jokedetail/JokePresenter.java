@@ -1,20 +1,22 @@
 package com.example.jokesapp2.jokedetail;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import com.example.jokesapp2.model.Joke;
-import com.example.jokesapp2.model.local.JokesLocalDataSource;
+import com.example.jokesapp2.model.JokesDataSource;
 
 public class JokePresenter implements JokeContract.Presenter, JokeContract.Interactor.OnFinishedListener {
 
     private JokeContract.View view;
     private JokeContract.Interactor interactor;
-    private JokesLocalDataSource jokesLocalDataSource;
-    private JokesHelper jokesHelper;
+    private JokesDataSource jokesDataSource;
+    private SharedPreferences sharedPreferences;
 
-    JokePresenter(JokeContract.View view, JokesHelper jokesHelper, JokesLocalDataSource jokesLocalDataSource) {
+    JokePresenter(JokeContract.View view, JokesDataSource jokesDataSource) {
         this.view = view;
         this.interactor = new JokeInteractor();
-        this.jokesLocalDataSource = jokesLocalDataSource;
-        this.jokesHelper = jokesHelper;
+        this.jokesDataSource = jokesDataSource;
     }
 
     // Requests Joke data from server via JokeInteractor
@@ -26,21 +28,20 @@ public class JokePresenter implements JokeContract.Presenter, JokeContract.Inter
 
     @Override
     public void saveJokeToDB(Joke joke) {
-        jokesHelper.setJokeFavored(joke, true);
-        jokesLocalDataSource.saveJoke(joke);
+        Joke newJoke = new Joke(joke.getId(), joke.getValue(), joke.isFavored());
+        jokesDataSource.saveJoke(newJoke);
     }
 
     @Override
     public void deleteJokeFromDB(Joke joke) {
-        jokesHelper.setJokeFavored(joke, false);
-        jokesLocalDataSource.deleteJoke(joke.getId());
+        jokesDataSource.deleteJoke(joke.getId());
     }
 
-    // On succesful server result displays the data to the view and hides progressbar
+    // On successful server result displays the data to the view and hides progressbar
     @Override
-    public void onFinished(String category, String jokeString, String iconUrl) {
+    public void onFinished(Joke joke) {
         if (view != null) {
-            view.setData(category, jokeString, iconUrl);
+            view.setData(joke.getId(), joke.getCategory().get(0), joke.getValue(), joke.getIconUrl(), joke.isFavored());
             view.hideProgress();
         }
     }

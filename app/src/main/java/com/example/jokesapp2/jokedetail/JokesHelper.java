@@ -30,8 +30,7 @@ public class JokesHelper {
         if (favored) {
             jokesDataSource.saveJoke(joke);
             PrefUtils.addToFavorites(activity, joke.getId());
-        }
-        else {
+        } else {
             jokesDataSource.deleteJoke(joke.getId());
             PrefUtils.removeFromFavorites(activity, joke.getId());
         }
