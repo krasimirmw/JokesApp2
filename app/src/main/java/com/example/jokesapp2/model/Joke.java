@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -15,24 +16,32 @@ import androidx.room.PrimaryKey;
 /* POJO for Joke Object */
 @Entity(tableName = "jokes")
 public class Joke {
+
     @SerializedName("category")
     @Expose
     @Ignore
     private List<String> category;
+
     @SerializedName("icon_url")
     @Expose
     private String iconUrl;
+
     @SerializedName("id")
     @Expose
     @NonNull
     @PrimaryKey
+    @ColumnInfo(name = "entryid")
     private String id;
+
     @SerializedName("url")
     @Expose
     private String url;
+
     @SerializedName("value")
     @Expose
     private String value;
+
+    boolean isFavored = false;
 
     @Ignore
     public Joke(List<String> category) {
@@ -90,5 +99,13 @@ public class Joke {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public boolean isFavored() {
+        return isFavored;
+    }
+
+    public void setFavored(boolean favored) {
+        isFavored = favored;
     }
 }

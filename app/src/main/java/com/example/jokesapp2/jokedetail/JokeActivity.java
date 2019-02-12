@@ -55,7 +55,7 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
         CardView cardview = findViewById(R.id.cardview_joke);
         progressBar = findViewById(R.id.progressBar);
         jokeTextView = findViewById(R.id.text_joke);
-        Button nextJokeButton = findViewById(R.id.button);
+        Button nextJokeButton = findViewById(R.id.button_nextJoke);
         icon = findViewById(R.id.image_joke);
 
         nextJokeButton.setOnClickListener(new View.OnClickListener() {

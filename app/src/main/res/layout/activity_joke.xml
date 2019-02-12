@@ -35,7 +35,7 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/button_nextJoke"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="@color/dark_grey"
+                android:background="@color/design_default_color_secondary"
                 android:text="@string/next_joke"
                 android:textAppearance="@style/TextAppearance.AppCompat.Button"
                 app:layout_constraintBottom_toBottomOf="parent"
