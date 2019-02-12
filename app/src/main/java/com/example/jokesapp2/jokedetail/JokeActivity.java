@@ -1,12 +1,7 @@
 package com.example.jokesapp2.jokedetail;
 
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.appcompat.widget.Toolbar;
-
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -18,9 +13,20 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.jokesapp2.R;
+import com.example.jokesapp2.model.Joke;
+import com.example.jokesapp2.model.local.JokeDatabase;
+import com.example.jokesapp2.model.local.JokesLocalDataSource;
+import com.example.jokesapp2.utils.AppExecutors;
 
 import java.util.Objects;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.HttpException;
 
 public class JokeActivity extends AppCompatActivity implements JokeContract.View {
@@ -31,51 +37,51 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
     // Presenter for handling business logic
     private JokeContract.Presenter presenter;
 
-    private Toolbar toolbar;
+    // JokeActivity toolbar
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     // Progressbar for displaying
-    private ProgressBar progressBar;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     // Textview for displaying the joke
-    private TextView jokeTextView;
+    @BindView(R.id.text_joke)
+    TextView jokeTextView;
 
     // Icon from the Api
-    private ImageView icon;
+    @BindView(R.id.image_joke)
+    ImageView icon;
+
+    @BindView(R.id.button_nextJoke)
+    Button nextJokeButton;
+
+    @BindView(R.id.cardview_joke)
+    CardView cardView;
+
+    @BindView(R.id.button_favorite)
+    ImageButton favoriteButton;
+
+    private String category;
+    private Joke currentJoke;
+    private JokesHelper jokesHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joke);
+        ButterKnife.bind(this);
 
-        String category = getIntent().getStringExtra(CATEGORY_NAME);
-        toolbar = findViewById(R.id.toolbar);
+        category = getIntent().getStringExtra(CATEGORY_NAME);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        CardView cardview = findViewById(R.id.cardview_joke);
-        progressBar = findViewById(R.id.progressBar);
-        jokeTextView = findViewById(R.id.text_joke);
-        Button nextJokeButton = findViewById(R.id.button_nextJoke);
-        icon = findViewById(R.id.image_joke);
-
-        nextJokeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                jokeTextView.setText("");
-                presenter.requestDataFromServer(category);
-            }
-        });
-
-        ImageButton favoriteButton = findViewById(R.id.button_favorite);
-        favoriteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(JokeActivity.this, R.string.added_to_favorites, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        presenter = new JokePresenter(this, new JokeInteractor());
+        JokeDatabase jokeDatabase = JokeDatabase.getInstance(getApplicationContext());
+        JokesLocalDataSource jokesLocalDataSource = JokesLocalDataSource.getInstance(new AppExecutors(), jokeDatabase.jokeDAO());
+        jokesHelper = new JokesHelper(this, jokesLocalDataSource);
+        presenter = new JokePresenter(this, jokesHelper, jokesLocalDataSource);
         presenter.requestDataFromServer(category);
+
     }
 
     @Override
@@ -95,7 +101,9 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
     @Override
     public void setData(String category, String jokeString, String drawableIcon) {
         toolbar.setTitle(category.toUpperCase());
+        currentJoke = new Joke(jokeString, jokeString);
         jokeTextView.setText(jokeString);
+        favoriteButton.setSelected(false);
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.ic_sentiment_satisfied_black_24dp)
                 .error(R.drawable.ic_sentiment_very_dissatisfied_black_24dp).override(200, 200).centerCrop();
@@ -129,5 +137,26 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
         Toast.makeText(JokeActivity.this,
                 R.string.toast_error_text + throwable.getMessage(),
                 Toast.LENGTH_LONG).show();
+    }
+
+    @OnClick(R.id.button_nextJoke)
+    public void onNextJokeClicked() {
+        jokeTextView.setText("");
+        presenter.requestDataFromServer(category);
+    }
+
+    @OnClick(R.id.button_favorite)
+    public void onFavoredButtonClicked() {
+        Log.i("favored", "onFavoredButtonClicked: " + currentJoke.isFavored());
+        boolean favored = !currentJoke.isFavored();
+        favoriteButton.setSelected(favored);
+        jokesHelper.setJokeFavored(currentJoke, favored);
+        if (favored) {
+            Toast.makeText(JokeActivity.this, R.string.added_to_favorites, Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(JokeActivity.this, R.string.removed_from_favorites, Toast.LENGTH_SHORT).show();
+        }
+        //presenter.saveJokeToDB(currentJoke);
     }
 }

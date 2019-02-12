@@ -1,5 +1,7 @@
 package com.example.jokesapp2.jokedetail;
 
+import com.example.jokesapp2.model.Joke;
+
 public interface JokeContract {
 
     /**
@@ -21,6 +23,10 @@ public interface JokeContract {
      */
     interface Presenter {
         void requestDataFromServer(String category);
+
+        void saveJokeToDB(Joke joke);
+
+        void deleteJokeFromDB(Joke joke);
     }
 
     /**

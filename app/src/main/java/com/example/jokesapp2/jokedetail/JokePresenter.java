@@ -1,13 +1,20 @@
 package com.example.jokesapp2.jokedetail;
 
+import com.example.jokesapp2.model.Joke;
+import com.example.jokesapp2.model.local.JokesLocalDataSource;
+
 public class JokePresenter implements JokeContract.Presenter, JokeContract.Interactor.OnFinishedListener {
 
     private JokeContract.View view;
     private JokeContract.Interactor interactor;
+    private JokesLocalDataSource jokesLocalDataSource;
+    private JokesHelper jokesHelper;
 
-    JokePresenter(JokeContract.View view, JokeContract.Interactor interactor) {
+    JokePresenter(JokeContract.View view, JokesHelper jokesHelper, JokesLocalDataSource jokesLocalDataSource) {
         this.view = view;
-        this.interactor = interactor;
+        this.interactor = new JokeInteractor();
+        this.jokesLocalDataSource = jokesLocalDataSource;
+        this.jokesHelper = jokesHelper;
     }
 
     // Requests Joke data from server via JokeInteractor
@@ -15,6 +22,18 @@ public class JokePresenter implements JokeContract.Presenter, JokeContract.Inter
     public void requestDataFromServer(String category) {
         view.showProgress();
         interactor.getJoke(this, category);
+    }
+
+    @Override
+    public void saveJokeToDB(Joke joke) {
+        jokesHelper.setJokeFavored(joke, true);
+        jokesLocalDataSource.saveJoke(joke);
+    }
+
+    @Override
+    public void deleteJokeFromDB(Joke joke) {
+        jokesHelper.setJokeFavored(joke, false);
+        jokesLocalDataSource.deleteJoke(joke.getId());
     }
 
     // On succesful server result displays the data to the view and hides progressbar

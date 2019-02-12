@@ -45,6 +45,10 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.13.1'
     implementation 'com.squareup.okio:okio:2.2.2'
 
+    // Butter Knife
+    implementation 'com.jakewharton:butterknife:10.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+
     //Gson
     implementation 'com.google.code.gson:gson:2.8.5'
 
