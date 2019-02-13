@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -16,9 +19,17 @@ import com.example.jokesapp2.jokedetail.JokeActivity;
 
 public class CategoryActivity extends AppCompatActivity implements CategoryContract.View {
 
+    @BindView(R.id.progressBar)
     private ProgressBar progressBar;
+
+    @BindView(R.id.refreshButton)
     private Button refreshButton;
+
+    @BindView(R.id.recycler_view)
     private RecyclerView recyclerView;
+
+    @BindView(R.id.toolbar)
+    private Toolbar toolbar;
 
     // Presenter used for handling business logic
     private CategoryContract.Presenter presenter;
@@ -27,29 +38,14 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initializeToolbar();
-        initializeRecyclerView();
-        progressBar = findViewById(R.id.progressBar);
-        refreshButton = findViewById(R.id.refreshButton);
+        ButterKnife.bind(this);
+        // Sets Support action bar to toolbar
+        setSupportActionBar(toolbar);
+        // Sets recyclerview layout to Gridlayout with 4 col spans
+        recyclerView.setLayoutManager(new GridLayoutManager(CategoryActivity.this, 4));
 
         presenter = new CategoryPresenter(this, new CategoryInteractor());
         presenter.requestDataFromServer();
-    }
-
-    /*
-     * Initializes the Toolbar
-     */
-    private void initializeToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-    }
-
-    /*
-     * Initializes the RecyclerView
-     */
-    public void initializeRecyclerView() {
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new GridLayoutManager(CategoryActivity.this, 4));
     }
 
     /**
