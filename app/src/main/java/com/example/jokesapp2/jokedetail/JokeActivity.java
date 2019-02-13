@@ -134,6 +134,9 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
         toolbar.setTitle(category.toUpperCase());
         currentJoke = new Joke(jokeId, category, jokeString, isFavored);
         jokeTextView.setText(jokeString);
+        if (!favoriteButton.isClickable()) {
+            favoriteButton.setClickable(true);
+        }
         favoriteButton.setSelected(isFavored);
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.ic_sentiment_satisfied_black_24dp)
@@ -160,10 +163,14 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
         } else {
             jokeTextView.setText(R.string.error);
             // Request Options for Glide configuration
-            RequestOptions options = new RequestOptions().override(200, 200).centerCrop();
-            // Displays error image via Glide
-            Glide.with(this).load(R.drawable.ic_sentiment_very_dissatisfied_black_24dp).apply(options).into(icon);
         }
+        RequestOptions options = new RequestOptions().override(200, 200).centerCrop();
+        // Displays error image via Glide
+        Glide.with(this).load(R.drawable.ic_sentiment_very_dissatisfied_black_24dp).apply(options).into(icon);
+
+        // Sets favoriteButton ClickListener to null because no joke can be saved when there is no data
+        favoriteButton.setClickable(false);
+
         // Displays toast with error message
         Toast.makeText(JokeActivity.this,
                 R.string.toast_error_text + throwable.getMessage(),
