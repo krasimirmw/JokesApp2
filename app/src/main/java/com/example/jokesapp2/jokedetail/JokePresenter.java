@@ -37,7 +37,7 @@ public class JokePresenter implements JokeContract.Presenter, JokeContract.Inter
     @Override
     public void onFinished(Joke joke) {
         if (view != null) {
-            view.setData(joke.getId(), joke.getCategory().get(0), joke.getValue(), joke.getIconUrl(), joke.isFavored());
+            view.setData(joke.getId(), joke.getCategory(), joke.getValue(), joke.getIconUrl(), joke.isFavored());
             view.hideProgress();
         }
     }

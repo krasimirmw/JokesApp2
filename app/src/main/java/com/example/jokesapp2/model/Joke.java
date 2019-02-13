@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -20,7 +21,8 @@ public class Joke {
     @SerializedName("category")
     @Expose
     @Ignore
-    private List<String> category;
+    @Nullable
+    private String[] category;
 
     @SerializedName("categoryname")
     @Expose
@@ -53,12 +55,12 @@ public class Joke {
     private boolean isFavored = false;
 
     @Ignore
-    public Joke(List<String> category) {
+    public Joke(@Nullable String[] category) {
         this.category = category;
     }
 
     @Ignore
-    public Joke(List<String> category, String iconUrl, String value) {
+    public Joke(@Nullable String[] category, String iconUrl, String value) {
         this.category = category;
         this.iconUrl = iconUrl;
         this.value = value;
@@ -78,11 +80,16 @@ public class Joke {
         this.isFavored = isFavored;
     }
 
-    public List<String> getCategory() {
-        return category;
+    public String getCategory() {
+        if (category != null) {
+            return category[0];
+        }
+        else {
+            return "";
+        }
     }
 
-    public void setCategory(List<String> category) {
+    public void setCategory(@Nullable String[] category) {
         this.category = category;
     }
 
