@@ -27,6 +27,8 @@ public interface JokeContract {
         void saveJokeToDB(Joke joke);
 
         void deleteJokeFromDB(Joke joke);
+
+        void loadJokesFromDb();
     }
 
     /**

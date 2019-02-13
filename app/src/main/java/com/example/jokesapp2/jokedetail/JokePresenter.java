@@ -3,6 +3,9 @@ package com.example.jokesapp2.jokedetail;
 import com.example.jokesapp2.model.Joke;
 import com.example.jokesapp2.model.datasource.JokesDataSource;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class JokePresenter implements JokeContract.Presenter, JokeContract.Interactor.OnFinishedListener {
 
     private JokeContract.View view;
@@ -31,6 +34,31 @@ public class JokePresenter implements JokeContract.Presenter, JokeContract.Inter
     @Override
     public void deleteJokeFromDB(Joke joke) {
         jokesDataSource.deleteJoke(joke.getId());
+    }
+
+    @Override
+    public void loadJokesFromDb() {
+        jokesDataSource.getJokes(new JokesDataSource.LoadJokesCallback() {
+            @Override
+            public void onJokesLoaded(List<Joke> jokes) {
+                List<Joke> jokeDbList = new ArrayList<Joke>();
+                jokeDbList.addAll(jokes);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                // view.showJokeErrors
+            }
+        });
+    }
+
+    private void processJokes(List<Joke> jokes) {
+        if (jokes.isEmpty()) {
+            //view.showNoJokes
+        }
+        else {
+            //view.showJokes
+        }
     }
 
     // On successful server result displays the data to the view and hides progressbar

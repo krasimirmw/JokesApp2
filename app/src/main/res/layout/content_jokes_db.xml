@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contentframe_joke"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_category_localdb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cardview_joke"
+        android:gravity="center"
+        android:textSize="@dimen/article_titles"
+        android:textStyle="bold"
+        tools:text="Saved Explicit Jokes " />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_jokesdb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_category_localdb"
+        android:layout_margin="8dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar_db"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cardview_joke"
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>

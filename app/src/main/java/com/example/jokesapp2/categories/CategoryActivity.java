@@ -20,16 +20,16 @@ import com.example.jokesapp2.jokedetail.JokeActivity;
 public class CategoryActivity extends AppCompatActivity implements CategoryContract.View {
 
     @BindView(R.id.progressBar)
-    private ProgressBar progressBar;
+    public ProgressBar progressBar;
 
     @BindView(R.id.refreshButton)
-    private Button refreshButton;
+    public Button refreshButton;
 
     @BindView(R.id.recycler_view)
-    private RecyclerView recyclerView;
+    public RecyclerView recyclerView;
 
     @BindView(R.id.toolbar)
-    private Toolbar toolbar;
+    public Toolbar toolbar;
 
     // Presenter used for handling business logic
     private CategoryContract.Presenter presenter;
