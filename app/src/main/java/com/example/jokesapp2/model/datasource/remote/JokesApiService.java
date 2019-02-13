@@ -1,4 +1,4 @@
-package com.example.jokesapp2.model.remote;
+package com.example.jokesapp2.model.datasource.remote;
 
 import com.example.jokesapp2.model.Joke;
 

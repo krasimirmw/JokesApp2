@@ -1,16 +1,13 @@
 package com.example.jokesapp2.jokedetail;
 
-import android.content.SharedPreferences;
-
 import com.example.jokesapp2.model.Joke;
-import com.example.jokesapp2.model.JokesDataSource;
+import com.example.jokesapp2.model.datasource.JokesDataSource;
 
 public class JokePresenter implements JokeContract.Presenter, JokeContract.Interactor.OnFinishedListener {
 
     private JokeContract.View view;
     private JokeContract.Interactor interactor;
     private JokesDataSource jokesDataSource;
-    private SharedPreferences sharedPreferences;
 
     JokePresenter(JokeContract.View view, JokesDataSource jokesDataSource) {
         this.view = view;

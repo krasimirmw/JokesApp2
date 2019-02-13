@@ -71,12 +71,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         viewHolder.categoryText.setText(categoriesData[i]);
         Glide.with(context).load(photos[i % photos.length]).into(viewHolder.categoryImage);
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onItemClickListener.onItemClick(categoriesData[i]);
-            }
-        });
+        viewHolder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(categoriesData[i]));
     }
 
     @Override
@@ -86,7 +81,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView categoryImage;
+        ImageView categoryImage;
         private TextView categoryText;
 
         ViewHolder(@NonNull View itemView) {

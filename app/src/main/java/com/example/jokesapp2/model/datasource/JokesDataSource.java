@@ -1,4 +1,6 @@
-package com.example.jokesapp2.model;
+package com.example.jokesapp2.model.datasource;
+
+import com.example.jokesapp2.model.Joke;
 
 import java.util.List;
 

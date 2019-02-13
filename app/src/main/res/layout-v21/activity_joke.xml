@@ -89,7 +89,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_joke"
                 app:layout_constraintEnd_toEndOf="@+id/text_joke"
                 app:layout_constraintStart_toStartOf="@+id/text_joke"
@@ -100,12 +99,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
                 android:backgroundTint="@color/white"
                 android:src="@drawable/selector_favorite_button"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:contentDescription="@string/button_favorite_content_desc" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

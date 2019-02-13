@@ -1,4 +1,4 @@
-package com.example.jokesapp2.model.remote;
+package com.example.jokesapp2.model.datasource.remote;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

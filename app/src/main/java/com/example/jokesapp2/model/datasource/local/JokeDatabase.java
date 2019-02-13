@@ -1,4 +1,4 @@
-package com.example.jokesapp2.model.local;
+package com.example.jokesapp2.model.datasource.local;
 
 import android.content.Context;
 

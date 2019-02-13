@@ -13,8 +13,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.jokesapp2.R;
 import com.example.jokesapp2.model.Joke;
-import com.example.jokesapp2.model.local.JokeDatabase;
-import com.example.jokesapp2.model.local.JokesLocalDataSource;
+import com.example.jokesapp2.model.datasource.local.JokeDatabase;
+import com.example.jokesapp2.model.datasource.local.JokesLocalDataSource;
 import com.example.jokesapp2.utils.AppExecutors;
 
 import java.util.Objects;

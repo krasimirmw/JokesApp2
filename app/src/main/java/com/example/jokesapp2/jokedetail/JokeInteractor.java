@@ -1,8 +1,8 @@
 package com.example.jokesapp2.jokedetail;
 
 import com.example.jokesapp2.model.Joke;
-import com.example.jokesapp2.model.remote.ApiModule;
-import com.example.jokesapp2.model.remote.JokesApiService;
+import com.example.jokesapp2.model.datasource.remote.ApiModule;
+import com.example.jokesapp2.model.datasource.remote.JokesApiService;
 
 import org.jetbrains.annotations.NotNull;
 

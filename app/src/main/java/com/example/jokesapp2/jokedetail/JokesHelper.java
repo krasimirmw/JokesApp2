@@ -3,7 +3,7 @@ package com.example.jokesapp2.jokedetail;
 import android.app.Activity;
 
 import com.example.jokesapp2.model.Joke;
-import com.example.jokesapp2.model.JokesDataSource;
+import com.example.jokesapp2.model.datasource.JokesDataSource;
 import com.example.jokesapp2.utils.PrefUtils;
 
 import rx.Observable;
@@ -16,7 +16,7 @@ public class JokesHelper {
     private final Activity activity;
     private final JokesDataSource jokesDataSource;
 
-    public JokesHelper(Activity activity, JokesDataSource jokesDataSource) {
+    JokesHelper(Activity activity, JokesDataSource jokesDataSource) {
         this.activity = activity;
         this.jokesDataSource = jokesDataSource;
     }
@@ -25,7 +25,7 @@ public class JokesHelper {
         return FAVORED_SUBJECT.asObservable();
     }
 
-    public void setJokeFavored(Joke joke, boolean favored) {
+    void setJokeFavored(Joke joke, boolean favored) {
         joke.setFavored(favored);
         if (favored) {
             jokesDataSource.saveJoke(joke);
@@ -38,10 +38,10 @@ public class JokesHelper {
     }
 
     public static class FavoredEvent {
-        public String jokeId;
-        public boolean favored;
+        String jokeId;
+        boolean favored;
 
-        public FavoredEvent(String jokeId, boolean favored) {
+        FavoredEvent(String jokeId, boolean favored) {
             this.jokeId = jokeId;
             this.favored = favored;
         }
