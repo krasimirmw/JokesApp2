@@ -24,7 +24,7 @@ public class JokePresenter implements JokeContract.Presenter, JokeContract.Inter
 
     @Override
     public void saveJokeToDB(Joke joke) {
-        Joke newJoke = new Joke(joke.getId(), joke.getValue(), joke.isFavored());
+        Joke newJoke = new Joke(joke.getId(), joke.getCategoryName(), joke.getValue(), joke.isFavored());
         jokesDataSource.saveJoke(newJoke);
     }
 

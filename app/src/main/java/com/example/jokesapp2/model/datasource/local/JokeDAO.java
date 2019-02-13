@@ -15,11 +15,11 @@ public interface JokeDAO {
     @Query("Select * FROM JOKES WHERE entryid = :jokeId")
     Joke getJokeById(String jokeId);
     /**
-     * Select all jokes from the jokes table
+     * Select all jokes from the jokes table and ordering them by categoryname
      *
-     * @return all jokes.
+     * @return all jokes in ascending order by category.
      */
-    @Query("Select * FROM Jokes")
+    @Query("Select * FROM Jokes ORDER BY categoryname ASC")
     List<Joke> getJokes();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

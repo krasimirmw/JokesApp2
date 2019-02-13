@@ -16,6 +16,7 @@ import com.example.jokesapp2.model.Joke;
 import com.example.jokesapp2.model.datasource.local.JokeDatabase;
 import com.example.jokesapp2.model.datasource.local.JokesLocalDataSource;
 import com.example.jokesapp2.utils.AppExecutors;
+import com.facebook.stetho.Stetho;
 
 import java.util.Objects;
 
@@ -70,6 +71,8 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joke);
         ButterKnife.bind(this);
+        Stetho.initializeWithDefaults(this);
+
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
@@ -101,7 +104,7 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
     @Override
     public void setData(String jokeId, String category, String jokeString, String drawableIcon, boolean isFavored) {
         toolbar.setTitle(category.toUpperCase());
-        currentJoke = new Joke(jokeId, jokeString, isFavored);
+        currentJoke = new Joke(jokeId, category ,jokeString, isFavored);
         jokeTextView.setText(jokeString);
         favoriteButton.setSelected(isFavored);
         RequestOptions options = new RequestOptions()

@@ -71,6 +71,9 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:2.1.0-alpha04"
     implementation "androidx.room:room-rxjava2:2.1.0-alpha04"
 
+    // Stetho
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+
     //Test
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:4.1'

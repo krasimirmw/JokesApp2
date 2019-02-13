@@ -28,6 +28,7 @@ public class Joke {
     private String categoryName;
 
     @SerializedName("icon_url")
+    @Ignore
     @Expose
     private String iconUrl;
 
@@ -40,6 +41,7 @@ public class Joke {
 
     @SerializedName("url")
     @Expose
+    @Ignore
     @ColumnInfo(name = "url")
     private String url;
 
@@ -62,16 +64,16 @@ public class Joke {
         this.value = value;
     }
 
+    @Ignore
     public Joke(@NotNull String id, String value, boolean isFavored) {
         this.id = id;
         this.value = value;
         this.isFavored = isFavored;
     }
 
-    @Ignore
-    public Joke(@NotNull String id, String category, String value, boolean isFavored) {
+    public Joke(@NotNull String id, String categoryName, String value, boolean isFavored) {
         this.id = id;
-        this.categoryName = category;
+        this.categoryName = categoryName;
         this.value = value;
         this.isFavored = isFavored;
     }
