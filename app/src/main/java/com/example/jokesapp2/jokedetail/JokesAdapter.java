@@ -6,15 +6,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.jokesapp2.R;
+import com.example.jokesapp2.model.Joke;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class JokesAdapter extends RecyclerView.Adapter<JokesAdapter.ViewHolder> {
 
-    private String[] jokesData;
+    private ArrayList<String> jokesData;
 
-    public JokesAdapter(String[] jokesData) {
+    JokesAdapter(ArrayList<String> jokesData) {
         this.jokesData = jokesData;
     }
 
@@ -28,19 +32,30 @@ public class JokesAdapter extends RecyclerView.Adapter<JokesAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull JokesAdapter.ViewHolder holder, int position) {
-        holder.jokeTextView.setText(jokesData[position]);
+        holder.jokeTextView.setText(jokesData.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return jokesData.length;
+        return jokesData.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    void replaceData(List<String> jokesData) {
+        this.jokesData.clear();
+        this.jokesData.addAll(jokesData);
+        notifyDataSetChanged();
+    }
+
+    public void clearData() {
+        this.jokesData.clear();
+        notifyDataSetChanged();
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView jokeTextView;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             jokeTextView = itemView.findViewById(R.id.text_jokedb);
         }

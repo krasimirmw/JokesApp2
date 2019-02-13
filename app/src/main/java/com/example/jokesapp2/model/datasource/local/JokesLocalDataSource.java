@@ -1,5 +1,7 @@
 package com.example.jokesapp2.model.datasource.local;
 
+import android.util.Log;
+
 import com.example.jokesapp2.model.Joke;
 import com.example.jokesapp2.model.datasource.JokesDataSource;
 import com.example.jokesapp2.utils.AppExecutors;
@@ -33,7 +35,7 @@ public class JokesLocalDataSource implements JokesDataSource {
 
     @Override
     public void getJoke(@NonNull String jokeId, JokesDataSource.GetJokeCallback callback) {
-        final Runnable runnable = () -> {
+        final Runnable getJokeRunnable = () -> {
             final Joke joke = jokeDAO.getJokeById(jokeId);
 
             appExecutors.getMainThread().execute(() -> {
@@ -44,12 +46,13 @@ public class JokesLocalDataSource implements JokesDataSource {
                 }
             });
         };
+        appExecutors.getDiskIO().execute(getJokeRunnable);
     }
 
     @Override
-    public void getJokes(@NonNull JokesDataSource.LoadJokesCallback callback) {
-        final Runnable runnable = () -> {
-            final List<Joke> jokeList = jokeDAO.getJokes();
+    public void getJokesFromCategory(String category, @NonNull JokesDataSource.LoadJokesCallback callback) {
+        final Runnable getJokesFromCategoryRunnable = () -> {
+            final List<Joke> jokeList = jokeDAO.getJokesFromCategory(category);
 
             appExecutors.getMainThread().execute(() -> {
                 if (jokeList.isEmpty()) {
@@ -59,6 +62,7 @@ public class JokesLocalDataSource implements JokesDataSource {
                 }
             });
         };
+        appExecutors.getDiskIO().execute(getJokesFromCategoryRunnable);
     }
 
     @Override

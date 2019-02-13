@@ -34,6 +34,8 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
     // Presenter used for handling business logic
     private CategoryContract.Presenter presenter;
 
+    //private CategoryAdapter categoryAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,8 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
         // Sets recyclerview layout to Gridlayout with 4 col spans
         recyclerView.setLayoutManager(new GridLayoutManager(CategoryActivity.this, 4));
 
+        //categoryAdapter = new CategoryAdapter(this, new String[0], recyclerItemClickListener);
+
         presenter = new CategoryPresenter(this, new CategoryInteractor());
         presenter.requestDataFromServer();
     }
@@ -51,13 +55,10 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
     /**
      * RecyclerItem click event listener
      */
-    private RecyclerItemClickListener recyclerItemClickListener = new RecyclerItemClickListener() {
-        @Override
-        public void onItemClick(String category) {
-            Intent intent = new Intent(CategoryActivity.this, JokeActivity.class);
-            intent.putExtra(JokeActivity.CATEGORY_NAME, category);
-            startActivity(intent);
-        }
+    private RecyclerItemClickListener recyclerItemClickListener = category -> {
+        Intent intent = new Intent(CategoryActivity.this, JokeActivity.class);
+        intent.putExtra(JokeActivity.CATEGORY_NAME, category);
+        startActivity(intent);
     };
 
     /*
@@ -97,12 +98,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
     @Override
     public void onResponseFailure(Throwable throwable) {
         refreshButton.setVisibility(View.VISIBLE);
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.requestDataFromServer();
-            }
-        });
+        refreshButton.setOnClickListener(v -> presenter.requestDataFromServer());
         Toast.makeText(CategoryActivity.this,
                 R.string.toast_error_text,
                 Toast.LENGTH_LONG).show();

@@ -18,12 +18,16 @@ import com.example.jokesapp2.model.datasource.local.JokesLocalDataSource;
 import com.example.jokesapp2.utils.AppExecutors;
 import com.facebook.stetho.Stetho;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -62,9 +66,23 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
     @BindView(R.id.button_favorite)
     ImageButton favoriteButton;
 
+    // View for Jokes From Db
+    @BindView(R.id.contentframe_joke)
+    View contentFrameJokesDb;
+
+    @BindView(R.id.recyclerview_jokesdb)
+    RecyclerView recyclerViewDb;
+
+    @BindView(R.id.progressBar_db)
+    ProgressBar progressBarDb;
+
+    @BindView(R.id.text_category_localdb)
+    TextView textViewCategoryDb;
+
     private String category;
     private Joke currentJoke;
     private JokesHelper jokesHelper;
+    private JokesAdapter jokesAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +94,8 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        setUpRecyclerView();
+
         category = getIntent().getStringExtra(CATEGORY_NAME);
 
         JokeDatabase jokeDatabase = JokeDatabase.getInstance(getApplicationContext());
@@ -84,7 +104,15 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
 
         presenter = new JokePresenter(this, jokesLocalDataSource);
 
+        presenter.loadJokesFromDb(category);
         presenter.requestDataFromServer(category);
+    }
+
+    private void setUpRecyclerView() {
+        jokesAdapter = new JokesAdapter(new ArrayList<>());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerViewDb.setLayoutManager(layoutManager);
+        recyclerViewDb.setAdapter(jokesAdapter);
     }
 
     @Override
@@ -104,7 +132,7 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
     @Override
     public void setData(String jokeId, String category, String jokeString, String drawableIcon, boolean isFavored) {
         toolbar.setTitle(category.toUpperCase());
-        currentJoke = new Joke(jokeId, category ,jokeString, isFavored);
+        currentJoke = new Joke(jokeId, category, jokeString, isFavored);
         jokeTextView.setText(jokeString);
         favoriteButton.setSelected(isFavored);
         RequestOptions options = new RequestOptions()
@@ -142,6 +170,28 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
                 Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void showDbJokes(List<String> jokesData) {
+        contentFrameJokesDb.setVisibility(View.VISIBLE);
+        textViewCategoryDb.setText(getString(R.string.joke_category_string, category));
+        jokesAdapter.replaceData(jokesData);
+    }
+
+    @Override
+    public void showNoDbJokes() {
+        contentFrameJokesDb.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showDbProgress() {
+        progressBarDb.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideDbProgress() {
+        progressBarDb.setVisibility(View.INVISIBLE);
+    }
+
     @OnClick(R.id.button_nextJoke)
     public void onNextJokeClicked() {
         jokeTextView.setText("");
@@ -155,9 +205,11 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
         jokesHelper.setJokeFavored(currentJoke, favored);
         if (favored) {
             presenter.saveJokeToDB(currentJoke);
+            presenter.loadJokesFromDb(category);
             Toast.makeText(JokeActivity.this, R.string.added_to_favorites, Toast.LENGTH_SHORT).show();
         } else {
             presenter.deleteJokeFromDB(currentJoke);
+            presenter.loadJokesFromDb(category);
             Toast.makeText(JokeActivity.this, R.string.removed_from_favorites, Toast.LENGTH_SHORT).show();
         }
     }

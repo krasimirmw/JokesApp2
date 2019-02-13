@@ -53,8 +53,8 @@ public class JokesRepository implements JokesDataSource {
     }
 
     @Override
-    public void getJokes(@NonNull LoadJokesCallback callback) {
-        jokesDataSource.getJokes(new LoadJokesCallback() {
+    public void getJokesFromCategory(String category, @NonNull LoadJokesCallback callback) {
+        jokesDataSource.getJokesFromCategory(category, new LoadJokesCallback() {
             @Override
             public void onJokesLoaded(List<Joke> jokes) {
                 callback.onJokesLoaded(jokes);

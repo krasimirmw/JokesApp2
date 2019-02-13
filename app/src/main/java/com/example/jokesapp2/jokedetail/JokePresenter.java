@@ -37,12 +37,15 @@ public class JokePresenter implements JokeContract.Presenter, JokeContract.Inter
     }
 
     @Override
-    public void loadJokesFromDb() {
-        jokesDataSource.getJokes(new JokesDataSource.LoadJokesCallback() {
+    public void loadJokesFromDb(String category) {
+        jokesDataSource.getJokesFromCategory(category, new JokesDataSource.LoadJokesCallback() {
             @Override
             public void onJokesLoaded(List<Joke> jokes) {
-                List<Joke> jokeDbList = new ArrayList<Joke>();
-                jokeDbList.addAll(jokes);
+                List<String> jokeValuesDbList = new ArrayList<>();
+                for (int i = 0; i < jokes.size(); i++) {
+                    jokeValuesDbList.add(jokes.get(i).getValue());
+                }
+                processJokeValues(jokeValuesDbList);
             }
 
             @Override
@@ -52,12 +55,13 @@ public class JokePresenter implements JokeContract.Presenter, JokeContract.Inter
         });
     }
 
-    private void processJokes(List<Joke> jokes) {
-        if (jokes.isEmpty()) {
-            //view.showNoJokes
-        }
-        else {
-            //view.showJokes
+    private void processJokeValues(List<String> jokes) {
+        if (view != null) {
+            if (jokes.isEmpty()) {
+                view.showNoDbJokes();
+            } else {
+                view.showDbJokes(jokes);
+            }
         }
     }
 

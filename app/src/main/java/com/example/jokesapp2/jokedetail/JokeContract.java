@@ -2,6 +2,8 @@ package com.example.jokesapp2.jokedetail;
 
 import com.example.jokesapp2.model.Joke;
 
+import java.util.List;
+
 public interface JokeContract {
 
     /**
@@ -16,6 +18,14 @@ public interface JokeContract {
         void setData(String jokeId, String category, String jokeString, String drawableUrl, boolean isFavored);
 
         void onResponseFailure(Throwable throwable);
+
+        void showDbJokes(List<String> jokesData);
+
+        void showNoDbJokes();
+
+        void showDbProgress();
+
+        void hideDbProgress();
     }
 
     /**
@@ -28,7 +38,7 @@ public interface JokeContract {
 
         void deleteJokeFromDB(Joke joke);
 
-        void loadJokesFromDb();
+        void loadJokesFromDb(String category);
     }
 
     /**

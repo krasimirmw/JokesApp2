@@ -10,5 +10,7 @@
         android:id="@+id/text_jokedb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:textSize="18sp"
         tools:text="Chuck Norris can touch MC Hammer." />
 </androidx.cardview.widget.CardView>

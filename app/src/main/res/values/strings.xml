@@ -13,4 +13,5 @@
     <string name="added_to_favorites">Added to Favorites!</string>
     <string name="removed_from_favorites">Removed from Favorites</string>
     <string name="button_favorite_content_desc">Button for adding joke to favorites</string>
+    <string name="joke_category_string">Saved %1$s jokes</string>
 </resources>

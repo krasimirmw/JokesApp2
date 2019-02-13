@@ -24,7 +24,7 @@ public interface JokesDataSource {
 
     void getJoke(@NonNull String jokeId, GetJokeCallback callback);
 
-    void getJokes(@NonNull LoadJokesCallback callback);
+    void getJokesFromCategory(String category, @NonNull LoadJokesCallback callback);
 
     void saveJoke(@NonNull Joke joke);
 
