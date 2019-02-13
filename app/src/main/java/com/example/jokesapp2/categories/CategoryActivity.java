@@ -2,13 +2,6 @@ package com.example.jokesapp2.categories;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -16,6 +9,15 @@ import android.widget.Toast;
 
 import com.example.jokesapp2.R;
 import com.example.jokesapp2.jokedetail.JokeActivity;
+
+import java.util.ArrayList;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class CategoryActivity extends AppCompatActivity implements CategoryContract.View {
 
@@ -34,7 +36,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
     // Presenter used for handling business logic
     private CategoryContract.Presenter presenter;
 
-    //private CategoryAdapter categoryAdapter;
+    private CategoryAdapter categoryAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +46,10 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
         // Sets Support action bar to toolbar
         setSupportActionBar(toolbar);
         // Sets recyclerview layout to Gridlayout with 4 col spans
-        recyclerView.setLayoutManager(new GridLayoutManager(CategoryActivity.this, 4));
 
-        //categoryAdapter = new CategoryAdapter(this, new String[0], recyclerItemClickListener);
+        categoryAdapter = new CategoryAdapter(this, new ArrayList<>(), recyclerItemClickListener);
+        recyclerView.setLayoutManager(new GridLayoutManager(CategoryActivity.this, 4));
+        recyclerView.setAdapter(categoryAdapter);
 
         presenter = new CategoryPresenter(this, new CategoryInteractor());
         presenter.requestDataFromServer();
@@ -82,8 +85,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
      */
     @Override
     public void setDataToRecyclerView(String[] categories) {
-        CategoryAdapter categoryAdapter = new CategoryAdapter(this, categories, recyclerItemClickListener);
-        recyclerView.setAdapter(categoryAdapter);
+        categoryAdapter.replaceData(categories);
         if (refreshButton.getVisibility() == View.VISIBLE) {
             refreshButton.setVisibility(View.GONE);
             refreshButton.setOnClickListener(null);

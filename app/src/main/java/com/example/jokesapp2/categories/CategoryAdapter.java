@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.jokesapp2.R;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * RecyclerView Adapter for categories.
@@ -30,7 +34,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     /**
      * Array of category names
      */
-    private String[] categoriesData;
+    private List<String> categoriesData;
 
     /**
      * Click listener for recyclerview items
@@ -43,7 +47,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     private final Drawable[] photos;
 
     @Inject
-    CategoryAdapter(Context context, String[] categories, RecyclerItemClickListener onItemClickListener) {
+    CategoryAdapter(Context context, List<String> categories, RecyclerItemClickListener onItemClickListener) {
         this.context = context;
 
         this.categoriesData = categories;
@@ -68,15 +72,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.categoryText.setText(categoriesData[i]);
+        viewHolder.categoryText.setText(categoriesData.get(i));
         Glide.with(context).load(photos[i % photos.length]).into(viewHolder.categoryImage);
 
-        viewHolder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(categoriesData[i]));
+        viewHolder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(categoriesData.get(i)));
     }
 
     @Override
     public int getItemCount() {
-        return categoriesData.length;
+        return categoriesData.size();
+    }
+
+    void replaceData(String[] categoriesArray) {
+        this.categoriesData.clear();
+        this.categoriesData.addAll(Arrays.asList(categoriesArray));
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
