@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "c6ae048d2f1bfaa0d6e616ae53038bbd",
+    "entities": [
+      {
+        "tableName": "jokes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoryname` TEXT, `entryid` TEXT NOT NULL, `value` TEXT, `isFavored` INTEGER NOT NULL, PRIMARY KEY(`entryid`))",
+        "fields": [
+          {
+            "fieldPath": "categoryName",
+            "columnName": "categoryname",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "entryid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isFavored",
+            "columnName": "isFavored",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "entryid"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c6ae048d2f1bfaa0d6e616ae53038bbd\")"
+    ]
+  }
+}
