@@ -57,12 +57,15 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
     @BindView(R.id.image_joke)
     ImageView icon;
 
+    // Button for requesting new Joke from server
     @BindView(R.id.button_nextJoke)
     Button nextJokeButton;
 
+    // CardView for holding Joke server data
     @BindView(R.id.cardview_joke)
     CardView cardView;
 
+    // ImageButton with two graphic modes used for displaying whether a Joke is saved.
     @BindView(R.id.button_favorite)
     ImageButton favoriteButton;
 
@@ -70,18 +73,28 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
     @BindView(R.id.contentframe_joke)
     View contentFrameJokesDb;
 
+    // RecyclerView for displaying saved joke items from db
     @BindView(R.id.recyclerview_jokesdb)
     RecyclerView recyclerViewDb;
 
+    // ProgressBar for displaying indicator when database loads
     @BindView(R.id.progressBar_db)
     ProgressBar progressBarDb;
 
+    // TextView for displaying category
     @BindView(R.id.text_category_localdb)
     TextView textViewCategoryDb;
 
+    // String for getting Category from Intent extra
     private String category;
+
+    // Object for storing the current joke from Retrofit body instance
     private Joke currentJoke;
+
+    // Helper for Adding favorite jokes to SharedPreferences
     private JokesHelper jokesHelper;
+
+    // RecyclerViewAdapter for Visualizing saved jokes in db
     private JokesAdapter jokesAdapter;
 
     @Override
@@ -108,6 +121,7 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
         presenter.requestDataFromServer(category);
     }
 
+    // Sets up RecyclerView Adapter and Manager
     private void setUpRecyclerView() {
         jokesAdapter = new JokesAdapter(new ArrayList<>());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -164,8 +178,8 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
             }
         } else {
             jokeTextView.setText(R.string.error);
-            // Request Options for Glide configuration
         }
+        // Request Options for Glide configuration
         RequestOptions options = new RequestOptions().override(200, 200).centerCrop();
         // Displays error image via Glide
         Glide.with(this).load(R.drawable.ic_sentiment_very_dissatisfied_black_24dp).apply(options).into(icon);
@@ -179,6 +193,12 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
                 Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Sets visibility of database jokes content frame to Visible.
+     * Sets the text of the category heading
+     * Replaces RecyclerView Adapter data
+     * @param jokesData
+     */
     @Override
     public void showDbJokes(List<String> jokesData) {
         contentFrameJokesDb.setVisibility(View.VISIBLE);
@@ -201,12 +221,18 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
         progressBarDb.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * Button for requesting new data from server on click
+     */
     @OnClick(R.id.button_nextJoke)
     public void onNextJokeClicked() {
         jokeTextView.setText("");
         presenter.requestDataFromServer(category);
     }
 
+    /**
+     * ImageButton for saving and deleting joke data to SharedPreference and Database
+     */
     @OnClick(R.id.button_favorite)
     public void onFavoredButtonClicked() {
         boolean favored = !currentJoke.isFavored();

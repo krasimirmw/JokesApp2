@@ -6,6 +6,11 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Main entry point for accessing jokes data.
+ *
+ * Only getJoke() and getJokesFromCategory() have callbacks.
+ */
 public interface JokesDataSource {
 
     interface GetJokeCallback {

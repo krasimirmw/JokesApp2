@@ -14,6 +14,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * RecyclerView adapter for displaying jokes from the database.
+ */
 public class JokesAdapter extends RecyclerView.Adapter<JokesAdapter.ViewHolder> {
 
     private ArrayList<String> jokesData;
@@ -30,22 +33,38 @@ public class JokesAdapter extends RecyclerView.Adapter<JokesAdapter.ViewHolder> 
         return new ViewHolder(view);
     }
 
+    /**
+     * Binds joke View data to Recyclerview item
+     * @param holder of item Views
+     * @param position of the item
+     */
     @Override
     public void onBindViewHolder(@NonNull JokesAdapter.ViewHolder holder, int position) {
         holder.jokeTextView.setText(jokesData.get(position));
     }
 
+    /**
+     * Gets the size of jokes list
+     * @return Number of jokes
+     */
     @Override
     public int getItemCount() {
         return jokesData.size();
     }
 
+    /**
+     * Replaces current Adapter data with new one from parameter.
+     * @param jokesData List of jokes
+     */
     void replaceData(List<String> jokesData) {
         this.jokesData.clear();
         this.jokesData.addAll(jokesData);
         notifyDataSetChanged();
     }
 
+    /**
+     * Clears Adapter data
+     */
     public void clearData() {
         this.jokesData.clear();
         notifyDataSetChanged();
@@ -53,6 +72,9 @@ public class JokesAdapter extends RecyclerView.Adapter<JokesAdapter.ViewHolder> 
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        /**
+         * View for displaying joke
+         */
         private TextView jokeTextView;
 
         ViewHolder(@NonNull View itemView) {

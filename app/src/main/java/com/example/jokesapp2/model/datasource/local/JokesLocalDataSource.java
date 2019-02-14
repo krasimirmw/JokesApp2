@@ -1,7 +1,5 @@
 package com.example.jokesapp2.model.datasource.local;
 
-import android.util.Log;
-
 import com.example.jokesapp2.model.Joke;
 import com.example.jokesapp2.model.datasource.JokesDataSource;
 import com.example.jokesapp2.utils.AppExecutors;
@@ -9,7 +7,9 @@ import com.example.jokesapp2.utils.AppExecutors;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-
+/**
+ * Concrete implementation of a data source as a database.
+ */
 public class JokesLocalDataSource implements JokesDataSource {
 
     private static volatile JokesLocalDataSource INSTANCE;
@@ -17,11 +17,13 @@ public class JokesLocalDataSource implements JokesDataSource {
     private AppExecutors appExecutors;
     private JokeDAO jokeDAO;
 
+    // Private constructor for preventing direct instantiation
     private JokesLocalDataSource(AppExecutors appExecutors, JokeDAO jokeDAO) {
         this.appExecutors = appExecutors;
         this.jokeDAO = jokeDAO;
     }
 
+    // Singleton getInstance
     public static JokesLocalDataSource getInstance(@NonNull AppExecutors appExecutors, @NonNull JokeDAO jokeDAO) {
         if (INSTANCE == null) {
             synchronized (JokesLocalDataSource.class) {
@@ -33,6 +35,7 @@ public class JokesLocalDataSource implements JokesDataSource {
         return INSTANCE;
     }
 
+    /* Gets the joke with requested ID. Runs on MainThread */
     @Override
     public void getJoke(@NonNull String jokeId, JokesDataSource.GetJokeCallback callback) {
         final Runnable getJokeRunnable = () -> {
@@ -49,6 +52,7 @@ public class JokesLocalDataSource implements JokesDataSource {
         appExecutors.getDiskIO().execute(getJokeRunnable);
     }
 
+    /* Gets all jokes from requested Category. Runs on MainThread */
     @Override
     public void getJokesFromCategory(String category, @NonNull JokesDataSource.LoadJokesCallback callback) {
         final Runnable getJokesFromCategoryRunnable = () -> {
@@ -65,12 +69,14 @@ public class JokesLocalDataSource implements JokesDataSource {
         appExecutors.getDiskIO().execute(getJokesFromCategoryRunnable);
     }
 
+    /* Saves Joke Object to database. Runs on single diskIO thread */
     @Override
     public void saveJoke(@NonNull Joke joke) {
         Runnable saveRunnable = () -> jokeDAO.saveJoke(joke);
         appExecutors.getDiskIO().execute(saveRunnable);
     }
 
+    /* Deletes Joke Object from database. Runs on single diskIO thread */
     @Override
     public void deleteJoke(@NonNull String jokedId) {
         Runnable deleteRunnable = () -> jokeDAO.deleteJoke(jokedId);

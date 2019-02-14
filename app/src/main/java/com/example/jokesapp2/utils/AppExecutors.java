@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
+/* Executors for managing thread calls */
 public class AppExecutors {
     private static final int THREAD_COUNT = 3;
 

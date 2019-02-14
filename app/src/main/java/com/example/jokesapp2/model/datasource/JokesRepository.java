@@ -6,6 +6,9 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Repository for synchronising local and remote data.
+ */
 public class JokesRepository implements JokesDataSource {
 
     private static JokesRepository INSTANCE = null;

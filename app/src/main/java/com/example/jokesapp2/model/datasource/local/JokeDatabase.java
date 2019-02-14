@@ -8,6 +8,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+/* Singleton for Room database */
 @Database(entities = {Joke.class}, version = 1)
 public abstract class JokeDatabase extends RoomDatabase {
 
