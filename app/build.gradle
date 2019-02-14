@@ -84,6 +84,10 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
     androidTestImplementation 'androidx.test:rules:1.1.2-alpha01'
 
+    // LeakCanary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+
     // Espresso UI Testing dependencies.
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.2-alpha01'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.2-alpha01'
