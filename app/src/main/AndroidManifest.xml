@@ -25,6 +25,7 @@
         <activity
             android:name=".jokedetail.JokeActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTask"
             android:parentActivityName=".categories.CategoryActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
