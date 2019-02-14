@@ -15,7 +15,7 @@ public interface JokeContract {
 
         void hideProgress();
 
-        void setData(String jokeId, String category, String jokeString, String drawableUrl, boolean isFavored);
+        void setData(String jokeId, String category, String jokeString, String drawableUrl);
 
         void onResponseFailure(Throwable throwable);
 
@@ -39,6 +39,8 @@ public interface JokeContract {
         void deleteJokeFromDB(Joke joke);
 
         void loadJokesFromDb(String category);
+
+        boolean isJokeFavoredInPreferences(String jokeId);
     }
 
     /**

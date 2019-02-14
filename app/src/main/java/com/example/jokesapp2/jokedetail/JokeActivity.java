@@ -100,9 +100,9 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
 
         JokeDatabase jokeDatabase = JokeDatabase.getInstance(getApplicationContext());
         JokesLocalDataSource jokesLocalDataSource = JokesLocalDataSource.getInstance(new AppExecutors(), jokeDatabase.jokeDAO());
-        jokesHelper = new JokesHelper(this, jokesLocalDataSource);
+        jokesHelper = new JokesHelper(this);
 
-        presenter = new JokePresenter(this, jokesLocalDataSource);
+        presenter = new JokePresenter(this, this, jokesLocalDataSource);
 
         presenter.loadJokesFromDb(category);
         presenter.requestDataFromServer(category);
@@ -130,14 +130,16 @@ public class JokeActivity extends AppCompatActivity implements JokeContract.View
      * Loads drawable from Api via Glide
      * */
     @Override
-    public void setData(String jokeId, String category, String jokeString, String drawableIcon, boolean isFavored) {
+    public void setData(String jokeId, String category, String jokeString, String drawableIcon) {
         toolbar.setTitle(category.toUpperCase());
+        boolean isFavored = presenter.isJokeFavoredInPreferences(jokeId);
         currentJoke = new Joke(jokeId, category, jokeString, isFavored);
         jokeTextView.setText(jokeString);
         if (!favoriteButton.isClickable()) {
             favoriteButton.setClickable(true);
         }
         favoriteButton.setSelected(isFavored);
+
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.ic_sentiment_satisfied_black_24dp)
                 .error(R.drawable.ic_sentiment_very_dissatisfied_black_24dp).override(200, 200).centerCrop();

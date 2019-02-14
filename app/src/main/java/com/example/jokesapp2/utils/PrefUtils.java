@@ -17,8 +17,11 @@ public final class PrefUtils {
         if (favoredJokesSet == null) {
             favoredJokesSet = new HashSet<>();
         }
-        favoredJokesSet.add(jokeId);
-        sharedPreferences.edit().putStringSet(PREF_FAVORED_JOKES, favoredJokesSet).apply();
+        // New Set created to fix SharedPreference getStringSet reference bugg
+        Set<String> newSet = new HashSet<>();
+        newSet.add(jokeId);
+        newSet.addAll(favoredJokesSet);
+        sharedPreferences.edit().putStringSet(PREF_FAVORED_JOKES, newSet).apply();
     }
 
     public static void removeFromFavorites(final Context context, String jokeId) {
@@ -27,7 +30,9 @@ public final class PrefUtils {
         if (favoredJokesSet == null) {
             favoredJokesSet = new HashSet<>();
         }
-        favoredJokesSet.remove(jokeId);
-        sharedPreferences.edit().putStringSet(PREF_FAVORED_JOKES, favoredJokesSet).apply();
+        // New Set created to fix SharedPreference getStringSet reference bugg
+        Set<String> newSet = new HashSet<>(favoredJokesSet);
+        newSet.remove(jokeId);
+        sharedPreferences.edit().putStringSet(PREF_FAVORED_JOKES, newSet).apply();
     }
 }

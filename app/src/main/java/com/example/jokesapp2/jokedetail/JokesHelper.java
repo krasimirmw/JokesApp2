@@ -1,9 +1,8 @@
 package com.example.jokesapp2.jokedetail;
 
-import android.app.Activity;
+import android.content.Context;
 
 import com.example.jokesapp2.model.Joke;
-import com.example.jokesapp2.model.datasource.JokesDataSource;
 import com.example.jokesapp2.utils.PrefUtils;
 
 import rx.Observable;
@@ -13,12 +12,10 @@ public class JokesHelper {
 
     private static final PublishSubject<FavoredEvent> FAVORED_SUBJECT = PublishSubject.create();
 
-    private final Activity activity;
-    private final JokesDataSource jokesDataSource;
+    private final Context context;
 
-    JokesHelper(Activity activity, JokesDataSource jokesDataSource) {
-        this.activity = activity;
-        this.jokesDataSource = jokesDataSource;
+    JokesHelper(Context context) {
+        this.context = context;
     }
 
     public Observable<FavoredEvent> getFavoredObservable() {
@@ -28,11 +25,9 @@ public class JokesHelper {
     void setJokeFavored(Joke joke, boolean favored) {
         joke.setFavored(favored);
         if (favored) {
-            jokesDataSource.saveJoke(joke);
-            PrefUtils.addToFavorites(activity, joke.getId());
+            PrefUtils.addToFavorites(context, joke.getId());
         } else {
-            jokesDataSource.deleteJoke(joke.getId());
-            PrefUtils.removeFromFavorites(activity, joke.getId());
+            PrefUtils.removeFromFavorites(context, joke.getId());
         }
         FAVORED_SUBJECT.onNext(new FavoredEvent(joke.getId(), favored));
     }

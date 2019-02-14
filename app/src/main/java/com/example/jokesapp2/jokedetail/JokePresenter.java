@@ -1,21 +1,29 @@
 package com.example.jokesapp2.jokedetail;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import com.example.jokesapp2.model.Joke;
 import com.example.jokesapp2.model.datasource.JokesDataSource;
+import com.example.jokesapp2.utils.PrefUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class JokePresenter implements JokeContract.Presenter, JokeContract.Interactor.OnFinishedListener {
 
     private JokeContract.View view;
     private JokeContract.Interactor interactor;
     private JokesDataSource jokesDataSource;
+    private SharedPreferences sharedPreferences;
 
-    JokePresenter(JokeContract.View view, JokesDataSource jokesDataSource) {
+    JokePresenter(Context context, JokeContract.View view, JokesDataSource jokesDataSource) {
         this.view = view;
         this.interactor = new JokeInteractor();
         this.jokesDataSource = jokesDataSource;
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     // Requests Joke data from server via JokeInteractor
@@ -27,7 +35,7 @@ public class JokePresenter implements JokeContract.Presenter, JokeContract.Inter
 
     @Override
     public void saveJokeToDB(Joke joke) {
-        Joke newJoke = new Joke(joke.getId(), joke.getCategoryName(), joke.getValue(), joke.isFavored());
+        Joke newJoke = new Joke(joke.getId(), joke.getCategoryName(), joke.getValue(), true);
         jokesDataSource.saveJoke(newJoke);
     }
 
@@ -55,6 +63,13 @@ public class JokePresenter implements JokeContract.Presenter, JokeContract.Inter
         });
     }
 
+    @Override
+    public boolean isJokeFavoredInPreferences(String jokeId) {
+        if (sharedPreferences.getStringSet(PrefUtils.PREF_FAVORED_JOKES, null) != null) {
+            return Objects.requireNonNull(sharedPreferences.getStringSet(PrefUtils.PREF_FAVORED_JOKES, null)).contains(jokeId);
+        } else return false;
+    }
+
     private void processJokeValues(List<String> jokes) {
         if (view != null) {
             if (jokes.isEmpty()) {
@@ -69,7 +84,7 @@ public class JokePresenter implements JokeContract.Presenter, JokeContract.Inter
     @Override
     public void onFinished(Joke joke) {
         if (view != null) {
-            view.setData(joke.getId(), joke.getCategory(), joke.getValue(), joke.getIconUrl(), joke.isFavored());
+            view.setData(joke.getId(), joke.getCategory(), joke.getValue(), joke.getIconUrl());
             view.hideProgress();
         }
     }
