@@ -46,8 +46,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
      */
     private final Drawable[] photos;
 
-    @Inject
-    CategoryAdapter(Context context, List<String> categories, RecyclerItemClickListener onItemClickListener) {
+    public CategoryAdapter(Context context, List<String> categories, RecyclerItemClickListener onItemClickListener) {
         this.context = context;
 
         this.categoriesData = categories;

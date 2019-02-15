@@ -12,14 +12,17 @@ import com.example.jokesapp2.jokedetail.JokeActivity;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerAppCompatActivity;
 
-public class CategoryActivity extends AppCompatActivity implements CategoryContract.View {
+public class CategoryActivity extends DaggerAppCompatActivity implements CategoryContract.View {
 
     @BindView(R.id.progressBar)
     public ProgressBar progressBar;
@@ -34,13 +37,18 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
     public Toolbar toolbar;
 
     // Presenter used for handling business logic
-    private CategoryContract.Presenter presenter;
+    @Inject
+    CategoryContract.Presenter presenter;
 
-    private CategoryAdapter categoryAdapter;
+    CategoryAdapter categoryAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //DaggerCategoryComponent.create(this).inject(this);
+       // DaggerCategoryComponent.builder().build().inject(this);
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         // Sets Support action bar to toolbar
@@ -51,7 +59,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryContr
         recyclerView.setLayoutManager(new GridLayoutManager(CategoryActivity.this, 4));
         recyclerView.setAdapter(categoryAdapter);
 
-        presenter = new CategoryPresenter(this, new CategoryInteractor());
+        //presenter = new CategoryPresenter(this, new CategoryInteractor());
         presenter.requestDataFromServer();
     }
 

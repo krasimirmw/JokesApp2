@@ -5,7 +5,6 @@ import android.content.Context;
 import com.example.jokesapp2.model.Joke;
 import com.example.jokesapp2.utils.PrefUtils;
 
-import rx.Observable;
 import rx.subjects.PublishSubject;
 
 public class JokesHelper {
@@ -16,10 +15,6 @@ public class JokesHelper {
 
     JokesHelper(Context context) {
         this.context = context;
-    }
-
-    public Observable<FavoredEvent> getFavoredObservable() {
-        return FAVORED_SUBJECT.asObservable();
     }
 
     void setJokeFavored(Joke joke, boolean favored) {

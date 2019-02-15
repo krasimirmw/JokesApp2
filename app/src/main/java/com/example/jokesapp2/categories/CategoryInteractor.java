@@ -5,6 +5,8 @@ import com.example.jokesapp2.model.datasource.remote.JokesApiService;
 
 import org.jetbrains.annotations.NotNull;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
