@@ -5,6 +5,10 @@
         <!--Any text styling can be done here-->
         <item name="android:textStyle">normal</item>
         <item name="android:textAlignment">center</item>
+    </style>
 
+    <style name="style_next_joke_button">
+        <item name="android:fontFamily">casual</item>
+        <item name="android:textColor">#FFFF</item>
     </style>
 </resources>

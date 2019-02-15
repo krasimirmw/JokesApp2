@@ -16,4 +16,5 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">center</item>
     </style>
+
 </resources>

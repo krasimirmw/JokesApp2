@@ -34,7 +34,7 @@
 
             <Button
                 android:id="@+id/button_nextJoke"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/style_next_joke_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -42,7 +42,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="12dp"
-                android:background="@color/design_default_color_secondary"
+                android:background="@color/colorAccent"
                 android:text="@string/next_joke"
                 android:textAppearance="@style/TextAppearance.AppCompat.Button"
                 app:layout_constraintBottom_toBottomOf="parent"

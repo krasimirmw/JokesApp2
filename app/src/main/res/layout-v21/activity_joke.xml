@@ -22,13 +22,18 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview_joke"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="240dp"
         android:layout_below="@id/appbar"
         android:layout_gravity="center"
-        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         app:cardCornerRadius="6dp"
         app:cardElevation="6dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -38,7 +43,7 @@
 
             <Button
                 android:id="@+id/button_nextJoke"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/style_next_joke_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -46,9 +51,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="12dp"
-                android:background="@color/design_default_color_secondary"
+                android:background="@color/colorAccent"
                 android:text="@string/next_joke"
-                android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -82,6 +87,7 @@
                 app:autoSizeMaxTextSize="22sp"
                 app:autoSizeMinTextSize="12sp"
                 app:autoSizeTextType="uniform"
+                app:fontFamily="casual"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
